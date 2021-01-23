@@ -4,3 +4,13 @@ services:
     build: spring-app/
     ports:
       - 8080:8080
+  gatling-runner:
+    build: gatling-runner
+    command: [-s, sample.SampleService]
+    depends_on:
+      - spring-app
+    environment:
+      - LOCAL_USER_ID=`id -u $USER`
+    volumes:
+      - ./gatling-runner/simulations:/opt/app/java/gatling/user-files/simulations
+      - ./gatling-runner/results:/opt/app/java/gatling/results
